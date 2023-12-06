@@ -1,4 +1,6 @@
 // import { fetchBreeds } from './cat-api';
+import Notiflix from 'notiflix';
+
 const allParameters = {
   BASE_URL: 'https://api.thecatapi.com/v1',
   BREEDS_END_POINT: '/breeds',
@@ -14,13 +16,23 @@ const allReferences = {
   errorElement: document.querySelector('.error'),
 };
 
+onStart(
+  allReferences.loaderElement,
+  allReferences.errorElement,
+  allReferences.selectContainer,
+  allReferences.catContainer
+);
+
 fetchBreeds(allParameters.API_KEY)
   .then(data => {
     console.log(data);
-    allReferences.selectContainer.insertAdjacentHTML(
-      'beforeend',
-      createMarkupSelect(data)
+    onStartOk(
+      allReferences.loaderElement,
+      allReferences.errorElement,
+      allReferences.selectContainer,
+      allReferences.catContainer
     );
+    allReferences.selectContainer.innerHTML = createMarkupSelect(data);
     allReferences.selectContainer.addEventListener(
       'change',
       onChangeSelectContainer
@@ -28,6 +40,15 @@ fetchBreeds(allParameters.API_KEY)
   })
   .catch(error => {
     console.log('!fetchBreeds - ERROR!', error);
+    Notiflix.Notify.failure(
+      'Oops! Something went wrong! Try reloading the page!'
+    );
+    onStartNotOk(
+      allReferences.loaderElement,
+      allReferences.errorElement,
+      allReferences.selectContainer,
+      allReferences.catContainer
+    );
   });
 
 function fetchBreeds(api_key) {
@@ -41,6 +62,7 @@ function fetchBreeds(api_key) {
     if (!result) {
       throw new Error(result.statusText);
     }
+
     return result.json();
   });
 }
@@ -61,14 +83,25 @@ function onChangeSelectContainer(evt) {
   //
   fetchBreedsCurrentId(allParameters.API_KEY)
     .then(data => {
-      // console.log(data);
-      allReferences.catContainer.insertAdjacentHTML(
-        'beforeend',
-        createMarkupCatInfo(data)
+      onStatusOk(
+        allReferences.loaderElement,
+        allReferences.errorElement,
+        allReferences.selectContainer,
+        allReferences.catContainer
       );
+      allReferences.catContainer.innerHTML = createMarkupCatInfo(data);
     })
     .catch(error => {
+      onStatusNotOk(
+        allReferences.loaderElement,
+        allReferences.errorElement,
+        allReferences.selectContainer,
+        allReferences.catContainer
+      );
       console.log('!fetchBreedsCurrentId - ERROR!', error);
+      Notiflix.Notify.failure(
+        'Oops! Something went wrong! Try reloading the page!'
+      );
     });
   //
   //
@@ -84,6 +117,7 @@ function onChangeSelectContainer(evt) {
       if (!result) {
         throw new Error(result.statusText);
       }
+
       return result.json();
     });
   }
@@ -95,14 +129,48 @@ function createMarkupCatInfo(arr) {
   return array
     .map(
       ({ name, description, temperament }) => `
-    <img src="${imgLink}" alt="${name}" width="300">
-    <h2>${name}</h2>
-    <p>${description}</p>
-    <p>
-    <span>Temperament:</span>
-    ${temperament}
-    </p>
+    <div class="div-card-cat">
+      <img  class="img-card-cat" src="${imgLink}" alt="${name}" width="300">
+      <div class="card-info-wrapper">
+        <h2 class="title-card-info">${name}</h2>
+        <p class="description-card-info">${description}<p>
+        <p class="text-card-info">
+          <span class="span-card-info">Temperament:</span>
+      ${temperament}
+        </p>
+      </div>
+    </div>
   `
     )
     .join('');
+}
+
+function onStart(loading, error, divSelect, divContainer) {
+  divSelect.style.display = 'none';
+  divContainer.style.display = 'none';
+  error.style.display = 'none';
+}
+function onStartOk(loading, error, divSelect, divContainer) {
+  divSelect.style.display = 'block';
+  divContainer.style.display = 'none';
+  error.style.display = 'none';
+  loading.style.display = 'none';
+}
+function onStartNotOk(loading, error, divSelect, divContainer) {
+  divSelect.style.display = 'none';
+  divContainer.style.display = 'none';
+  error.style.display = 'none';
+  loading.style.display = 'none';
+}
+function onStatusOk(loading, error, divSelect, divContainer) {
+  divSelect.style.display = 'block';
+  divContainer.style.display = 'block';
+  error.style.display = 'none';
+  loading.style.display = 'none';
+}
+function onStatusNotOk(loading, error, divSelect, divContainer) {
+  divSelect.style.display = 'block';
+  divContainer.style.display = 'none';
+  error.style.display = 'none';
+  loading.style.display = 'none';
 }
