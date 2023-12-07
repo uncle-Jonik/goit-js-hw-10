@@ -8,9 +8,10 @@ import {
   onStatusOk,
   onStatusNotOk,
 } from './markup';
+import { fetchBreeds } from './cat-api';
 import Notiflix from 'notiflix';
 
-const allParameters = {
+export const allParameters = {
   BASE_URL: 'https://api.thecatapi.com/v1',
   BREEDS_END_POINT: '/breeds',
   SEARCH_END_POINT: '/images/search',
@@ -60,26 +61,31 @@ fetchBreeds(allParameters.API_KEY)
     );
   });
 
-function fetchBreeds(api_key) {
-  const queryParameter = new URLSearchParams({
-    api_key,
-  });
-
-  return fetch(
-    `${allParameters.BASE_URL}${allParameters.BREEDS_END_POINT}?${queryParameter}`
-  ).then(result => {
-    if (!result) {
-      throw new Error(result.statusText);
-    }
-
-    return result.json();
-  });
-}
-
 function onChangeSelectContainer(evt) {
-  const catCurrentId = evt.currentTarget.value;
-  //
-  //
+  // const catCurrentId = evt.currentTarget.value;
+
+  function fetchBreedsCurrentId(api_key) {
+    const catCurrentId = evt.currentTarget.value;
+    const queryParameter = new URLSearchParams({
+      breed_ids: catCurrentId,
+      api_key,
+    });
+    onCheck(
+      allReferences.loaderElement,
+      allReferences.errorElement,
+      allReferences.selectContainer,
+      allReferences.catContainer
+    );
+    return fetch(
+      `${allParameters.BASE_URL}${allParameters.SEARCH_END_POINT}?${queryParameter}`
+    ).then(result => {
+      if (!result) {
+        throw new Error(result.statusText);
+      }
+
+      return result.json();
+    });
+  }
   fetchBreedsCurrentId(allParameters.API_KEY)
     .then(data => {
       onStatusOk(
@@ -102,28 +108,4 @@ function onChangeSelectContainer(evt) {
         'Oops! Something went wrong! Try reloading the page!'
       );
     });
-  //
-  //
-  //
-  function fetchBreedsCurrentId(api_key) {
-    const queryParameter = new URLSearchParams({
-      breed_ids: catCurrentId,
-      api_key,
-    });
-    onCheck(
-      allReferences.loaderElement,
-      allReferences.errorElement,
-      allReferences.selectContainer,
-      allReferences.catContainer
-    );
-    return fetch(
-      `${allParameters.BASE_URL}${allParameters.SEARCH_END_POINT}?${queryParameter}`
-    ).then(result => {
-      if (!result) {
-        throw new Error(result.statusText);
-      }
-
-      return result.json();
-    });
-  }
 }
