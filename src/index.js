@@ -1,4 +1,13 @@
-import { createMarkupSelect, createMarkupCatInfo } from './markup';
+import {
+  createMarkupSelect,
+  createMarkupCatInfo,
+  onStart,
+  onStartOk,
+  onStartNotOk,
+  onCheck,
+  onStatusOk,
+  onStatusNotOk,
+} from './markup';
 import Notiflix from 'notiflix';
 
 const allParameters = {
@@ -117,40 +126,4 @@ function onChangeSelectContainer(evt) {
       return result.json();
     });
   }
-}
-
-function onStart(loading, error, divSelect, divContainer) {
-  divSelect.style.display = 'none';
-  divContainer.style.display = 'none';
-  error.style.display = 'none';
-}
-function onStartOk(loading, error, divSelect, divContainer) {
-  divSelect.style.display = 'block';
-  divContainer.style.display = 'none';
-  error.style.display = 'none';
-  loading.style.display = 'none';
-}
-function onStartNotOk(loading, error, divSelect, divContainer) {
-  divSelect.style.display = 'none';
-  divContainer.style.display = 'none';
-  error.style.display = 'none';
-  loading.style.display = 'none';
-}
-function onCheck(loading, error, divSelect, divContainer) {
-  divSelect.style.display = 'block';
-  divContainer.style.display = 'none';
-  error.style.display = 'none';
-  loading.style.display = 'block';
-}
-function onStatusOk(loading, error, divSelect, divContainer) {
-  divSelect.style.display = 'block';
-  divContainer.style.display = 'block';
-  error.style.display = 'none';
-  loading.style.display = 'none';
-}
-function onStatusNotOk(loading, error, divSelect, divContainer) {
-  divSelect.style.display = 'block';
-  divContainer.style.display = 'none';
-  error.style.display = 'none';
-  loading.style.display = 'none';
 }

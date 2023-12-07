@@ -33,3 +33,39 @@ export function createMarkupCatInfo(arr) {
     )
     .join('');
 }
+
+export function onStart(loading, error, divSelect, divContainer) {
+  divSelect.style.display = 'none';
+  divContainer.style.display = 'none';
+  error.style.display = 'none';
+}
+export function onStartOk(loading, error, divSelect, divContainer) {
+  divSelect.style.display = 'block';
+  divContainer.style.display = 'none';
+  error.style.display = 'none';
+  loading.style.display = 'none';
+}
+export function onStartNotOk(loading, error, divSelect, divContainer) {
+  divSelect.style.display = 'none';
+  divContainer.style.display = 'none';
+  error.style.display = 'none';
+  loading.style.display = 'none';
+}
+export function onCheck(loading, error, divSelect, divContainer) {
+  divSelect.style.display = 'block';
+  divContainer.style.display = 'none';
+  error.style.display = 'none';
+  loading.style.display = 'block';
+}
+export function onStatusOk(loading, error, divSelect, divContainer) {
+  divSelect.style.display = 'block';
+  divContainer.style.display = 'block';
+  error.style.display = 'none';
+  loading.style.display = 'none';
+}
+export function onStatusNotOk(loading, error, divSelect, divContainer) {
+  divSelect.style.display = 'block';
+  divContainer.style.display = 'none';
+  error.style.display = 'none';
+  loading.style.display = 'none';
+}
