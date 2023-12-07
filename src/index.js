@@ -111,6 +111,12 @@ function onChangeSelectContainer(evt) {
       breed_ids: catCurrentId,
       api_key,
     });
+    onCheck(
+      allReferences.loaderElement,
+      allReferences.errorElement,
+      allReferences.selectContainer,
+      allReferences.catContainer
+    );
     return fetch(
       `${allParameters.BASE_URL}${allParameters.SEARCH_END_POINT}?${queryParameter}`
     ).then(result => {
@@ -161,6 +167,12 @@ function onStartNotOk(loading, error, divSelect, divContainer) {
   divContainer.style.display = 'none';
   error.style.display = 'none';
   loading.style.display = 'none';
+}
+function onCheck(loading, error, divSelect, divContainer) {
+  divSelect.style.display = 'block';
+  divContainer.style.display = 'none';
+  error.style.display = 'none';
+  loading.style.display = 'block';
 }
 function onStatusOk(loading, error, divSelect, divContainer) {
   divSelect.style.display = 'block';
