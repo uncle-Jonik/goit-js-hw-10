@@ -18,7 +18,7 @@ export const allParameters = {
     'live_M0UW1pIqNDUHMsk829omTs9pLbOOPCqFHZrrxuqtRu734aLGOg4CW098pDNOSI2f',
 };
 
-const allReferences = {
+export const allReferences = {
   selectContainer: document.querySelector('.breed-select'),
   catContainer: document.querySelector('.cat-info'),
   loaderElement: document.querySelector('.loader'),

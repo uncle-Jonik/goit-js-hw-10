@@ -1,5 +1,5 @@
 import { onCheck } from './markup';
-import { allParameters } from './index';
+import { allParameters, allReferences } from './index';
 
 export function fetchBreeds(api_key) {
   const queryParameter = new URLSearchParams({
