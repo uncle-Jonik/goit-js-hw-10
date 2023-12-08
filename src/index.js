@@ -4,11 +4,10 @@ import {
   onStart,
   onStartOk,
   onStartNotOk,
-  onCheck,
   onStatusOk,
   onStatusNotOk,
 } from './markup';
-import { fetchBreeds } from './cat-api';
+import { fetchBreeds, fetchBreedsCurrentId } from './cat-api';
 import Notiflix from 'notiflix';
 
 export const allParameters = {
@@ -62,31 +61,9 @@ fetchBreeds(allParameters.API_KEY)
   });
 
 function onChangeSelectContainer(evt) {
-  // const catCurrentId = evt.currentTarget.value;
+  const catCurrentId = evt.currentTarget.value;
 
-  function fetchBreedsCurrentId(api_key) {
-    const catCurrentId = evt.currentTarget.value;
-    const queryParameter = new URLSearchParams({
-      breed_ids: catCurrentId,
-      api_key,
-    });
-    onCheck(
-      allReferences.loaderElement,
-      allReferences.errorElement,
-      allReferences.selectContainer,
-      allReferences.catContainer
-    );
-    return fetch(
-      `${allParameters.BASE_URL}${allParameters.SEARCH_END_POINT}?${queryParameter}`
-    ).then(result => {
-      if (!result) {
-        throw new Error(result.statusText);
-      }
-
-      return result.json();
-    });
-  }
-  fetchBreedsCurrentId(allParameters.API_KEY)
+  fetchBreedsCurrentId(allParameters.API_KEY, catCurrentId)
     .then(data => {
       onStatusOk(
         allReferences.loaderElement,
